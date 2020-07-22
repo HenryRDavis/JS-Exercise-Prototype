@@ -12,13 +12,12 @@ function Airplane(name) {
   this.name = name;
   this.isFlying = false;
 }
-Airplane.prototype.takeOff = function () {
+Airplane.prototype.takeOff = function() {
   this.isFlying = true;
 };
-Airplane.prototype.land = function () {
+Airplane.prototype.land = function() {
   this.isFlying = false;
 };
-
 
 /*
 // 👇 COMPLETE YOUR WORK BELOW 👇
@@ -39,9 +38,49 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 }
+
+Person.prototype.eat = function(edible) {
+  if (this.stomach.length < 10) {
+    this.stomach.push(edible);
+  }
+};
+
+// create a loop method that empties the array
+
+Person.prototype.poop = function() {
+  this.stomach = [];
+};
+
+// method called toString = needs to return a string with name and age
+
+Person.prototype.toString = function() {
+  return `${this.name}, ${this.age}`;
+};
+
+// create my object
+
+const personOne = new Person("Chris", 38);
+const personTwo = new Person("Victor", 20);
+const personThree = new Person("Mike", 36);
+
+console.log(personOne.toString());
+console.log(personTwo.toString());
+console.log(personThree.toString());
+
+personThree.eat("truffle fries");
+personThree.eat("truffle pasta");
+personThree.eat("mushrom risotto with extra truffle");
+
+console.log(personThree.stomach);
+
+personThree.poop();
+
+console.log(personThree.stomach);
 
 /*
   TASK 2
@@ -56,10 +95,25 @@ function Person() {
     - STRETCH: A car which runs out of `fuel` while driving can't drive any more distance:
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
+// create a function that has model and milesPerGallon as arguments
+// create a prototype with a .fill method that equals to a function(gas)
+// add the fuel to the gas
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
 }
+
+Car.prototype.drive = function(distance) {
+  this.odometer += distance;
+  this.tank -= this.milesPerGallon;
+};
+
+Car.prototype.fill = function(gas) {
+  this.tank += gas;
+};
 
 /*
   TASK 3
@@ -68,28 +122,51 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
+// write a constructor makingi t a subclass to our Perosn function
+// write a 3rd argument called 'favoriteToy'
+// create another prototype with .play({
+// console.log(`Playing with ${this.favoritetoy})`;
+// })
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function() {
+  return `Playing with ${this.favoriteToy}`;
+};
 
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age);
+  this.person = {
+    name,
+    age
+  };
+  this.favoriteToy = favoriteToy;
 }
+
+console.log(Baby.prototype());
 
 /* 
   TASK 4
-
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Is the function called by new?
+  2. Is it called by call, apply, or bind?
+  3. Is it a method?
+  4. Is the function thats being called in the global scope?
 */
 
-
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
-if (typeof exports !== 'undefined') {
-  module.exports = module.exports || {}
-  if (Airplane) { module.exports.Airplane = Airplane }
-  if (Person) { module.exports.Person = Person }
-  if (Car) { module.exports.Car = Car }
-  if (Baby) { module.exports.Baby = Baby }
+if (typeof exports !== "undefined") {
+  module.exports = module.exports || {};
+  if (Airplane) {
+    module.exports.Airplane = Airplane;
+  }
+  if (Person) {
+    module.exports.Person = Person;
+  }
+  if (Car) {
+    module.exports.Car = Car;
+  }
+  if (Baby) {
+    module.exports.Baby = Baby;
+  }
 }
